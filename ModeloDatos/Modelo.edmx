@@ -1,0 +1,1410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MascotasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Adopcion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="personaId" Type="int" Nullable="false" />
+          <Property Name="mascotaId" Type="int" Nullable="false" />
+          <Property Name="personaAdoptaId" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="tipoContratoId" Type="int" />
+        </EntityType>
+        <EntityType Name="AdopcionEstado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="adopcionId" Type="int" Nullable="false" />
+          <Property Name="estadoId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Donacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="personaId" Type="int" Nullable="false" />
+          <Property Name="mascotaId" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="monto" Type="money" />
+        </EntityType>
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Estudio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mascotaId" Type="int" Nullable="false" />
+          <Property Name="tipoEstudioId" Type="int" Nullable="false" />
+          <Property Name="fecha_realizacion" Type="date" Nullable="false" />
+          <Property Name="veterinarioId" Type="int" />
+          <Property Name="fecha_vencimiento" Type="date" />
+          <Property Name="observaciones" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Local">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="provinciaId" Type="int" />
+          <Property Name="localidadId" Type="int" />
+          <Property Name="domicilio" Type="varchar" MaxLength="50" />
+          <Property Name="razon_social" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Localidad">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="provinciaId" Type="int" />
+        </EntityType>
+        <EntityType Name="Mascota">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="razaId" Type="int" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="sexo" Type="char" MaxLength="1" />
+          <Property Name="fecha_nacimiento" Type="date" />
+          <Property Name="color" Type="varchar" MaxLength="50" />
+          <Property Name="tamañoId" Type="int" />
+          <Property Name="caracter" Type="varchar" MaxLength="50" />
+          <Property Name="observaciones" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Multimedia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mascotaId" Type="int" Nullable="false" />
+          <Property Name="tipo_archivo" Type="varchar" MaxLength="10" />
+          <Property Name="ruta" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fecha_publicacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dni" Type="varchar" MaxLength="8" />
+          <Property Name="apellido" Type="varchar" MaxLength="50" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="fecha_nacimiento" Type="date" />
+          <Property Name="cbu" Type="varchar" MaxLength="50" />
+          <Property Name="calificacion" Type="float" />
+          <Property Name="localidadId" Type="int" />
+          <Property Name="domicilio" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Provincia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Raza">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tamaño">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TipoContrato">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="terminos" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="TipoEstudio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="periodo_validez" Type="int" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="usuarioId" />
+          </Key>
+          <Property Name="usuarioId" Type="int" Nullable="false" />
+          <Property Name="contraseña" Type="varchar" MaxLength="50" />
+          <Property Name="habilitado" Type="bit" />
+          <Property Name="ultima_conexion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Veterinario">
+          <Key>
+            <PropertyRef Name="veterinarioId" />
+          </Key>
+          <Property Name="veterinarioId" Type="int" Nullable="false" />
+          <Property Name="matricula" Type="varchar" MaxLength="50" />
+          <Property Name="habilitados" Type="bit" />
+        </EntityType>
+        <EntityType Name="VeterinarioLocal">
+          <Key>
+            <PropertyRef Name="veterinarioId" />
+            <PropertyRef Name="localId" />
+          </Key>
+          <Property Name="veterinarioId" Type="int" Nullable="false" />
+          <Property Name="localId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Visita">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="veterinarioId" Type="int" Nullable="false" />
+          <Property Name="mascotaId" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="monto" Type="money" />
+        </EntityType>
+        <Association Name="FK_Adopcion_Mascota">
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="1" />
+          <End Role="Adopcion" Type="Self.Adopcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adopcion">
+              <PropertyRef Name="mascotaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adopcion_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Adopcion" Type="Self.Adopcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adopcion">
+              <PropertyRef Name="personaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adopcion_Persona1">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Adopcion" Type="Self.Adopcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adopcion">
+              <PropertyRef Name="personaAdoptaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adopcion_TipoContrato">
+          <End Role="TipoContrato" Type="Self.TipoContrato" Multiplicity="0..1" />
+          <End Role="Adopcion" Type="Self.Adopcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoContrato">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adopcion">
+              <PropertyRef Name="tipoContratoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdopcionEstado_Adopcion1">
+          <End Role="Adopcion" Type="Self.Adopcion" Multiplicity="1" />
+          <End Role="AdopcionEstado" Type="Self.AdopcionEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adopcion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdopcionEstado">
+              <PropertyRef Name="adopcionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdopcionEstado_Estado">
+          <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+          <End Role="AdopcionEstado" Type="Self.AdopcionEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdopcionEstado">
+              <PropertyRef Name="estadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donacion_Mascota">
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="1" />
+          <End Role="Donacion" Type="Self.Donacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Donacion">
+              <PropertyRef Name="mascotaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donacion_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Donacion" Type="Self.Donacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Donacion">
+              <PropertyRef Name="personaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudio_Mascota">
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="1" />
+          <End Role="Estudio" Type="Self.Estudio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estudio">
+              <PropertyRef Name="mascotaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudio_TIpoEstudio">
+          <End Role="TipoEstudio" Type="Self.TipoEstudio" Multiplicity="1" />
+          <End Role="Estudio" Type="Self.Estudio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoEstudio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estudio">
+              <PropertyRef Name="tipoEstudioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudio_Veterinario">
+          <End Role="Veterinario" Type="Self.Veterinario" Multiplicity="0..1" />
+          <End Role="Estudio" Type="Self.Estudio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veterinario">
+              <PropertyRef Name="veterinarioId" />
+            </Principal>
+            <Dependent Role="Estudio">
+              <PropertyRef Name="veterinarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Local_Localidad">
+          <End Role="Localidad" Type="Self.Localidad" Multiplicity="0..1" />
+          <End Role="Local" Type="Self.Local" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Local">
+              <PropertyRef Name="localidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Local_Provincia">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="0..1" />
+          <End Role="Local" Type="Self.Local" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Local">
+              <PropertyRef Name="provinciaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Localidad_Provincia">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="0..1" />
+          <End Role="Localidad" Type="Self.Localidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Localidad">
+              <PropertyRef Name="provinciaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mascota_Raza">
+          <End Role="Raza" Type="Self.Raza" Multiplicity="0..1" />
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raza">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mascota">
+              <PropertyRef Name="razaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mascota_Tamaño">
+          <End Role="Tamaño" Type="Self.Tamaño" Multiplicity="0..1" />
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tamaño">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mascota">
+              <PropertyRef Name="tamañoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Multimedia_Mascota">
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="1" />
+          <End Role="Multimedia" Type="Self.Multimedia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Multimedia">
+              <PropertyRef Name="mascotaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Persona_Localidad">
+          <End Role="Localidad" Type="Self.Localidad" Multiplicity="0..1" />
+          <End Role="Persona" Type="Self.Persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Persona">
+              <PropertyRef Name="localidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Veterinario_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Veterinario" Type="Self.Veterinario" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Veterinario">
+              <PropertyRef Name="veterinarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VeterinarioLocal_Local">
+          <End Role="Local" Type="Self.Local" Multiplicity="1" />
+          <End Role="VeterinarioLocal" Type="Self.VeterinarioLocal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Local">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VeterinarioLocal">
+              <PropertyRef Name="localId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VeterinarioLocal_Veterinario">
+          <End Role="Veterinario" Type="Self.Veterinario" Multiplicity="1" />
+          <End Role="VeterinarioLocal" Type="Self.VeterinarioLocal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veterinario">
+              <PropertyRef Name="veterinarioId" />
+            </Principal>
+            <Dependent Role="VeterinarioLocal">
+              <PropertyRef Name="veterinarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visita_Mascota">
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="1" />
+          <End Role="Visita" Type="Self.Visita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Visita">
+              <PropertyRef Name="mascotaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visita_Veterinario">
+          <End Role="Veterinario" Type="Self.Veterinario" Multiplicity="1" />
+          <End Role="Visita" Type="Self.Visita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veterinario">
+              <PropertyRef Name="veterinarioId" />
+            </Principal>
+            <Dependent Role="Visita">
+              <PropertyRef Name="veterinarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MascotasModelStoreContainer">
+          <EntitySet Name="Adopcion" EntityType="Self.Adopcion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdopcionEstado" EntityType="Self.AdopcionEstado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Donacion" EntityType="Self.Donacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estado" EntityType="Self.Estado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estudio" EntityType="Self.Estudio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Localidad" EntityType="Self.Localidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mascota" EntityType="Self.Mascota" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Multimedia" EntityType="Self.Multimedia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Raza" EntityType="Self.Raza" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tamaño" EntityType="Self.Tamaño" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoContrato" EntityType="Self.TipoContrato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoEstudio" EntityType="Self.TipoEstudio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Veterinario" EntityType="Self.Veterinario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VeterinarioLocal" EntityType="Self.VeterinarioLocal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Visita" EntityType="Self.Visita" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Adopcion_Mascota" Association="Self.FK_Adopcion_Mascota">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Adopcion" EntitySet="Adopcion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adopcion_Persona" Association="Self.FK_Adopcion_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Adopcion" EntitySet="Adopcion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adopcion_Persona1" Association="Self.FK_Adopcion_Persona1">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Adopcion" EntitySet="Adopcion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adopcion_TipoContrato" Association="Self.FK_Adopcion_TipoContrato">
+            <End Role="TipoContrato" EntitySet="TipoContrato" />
+            <End Role="Adopcion" EntitySet="Adopcion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdopcionEstado_Adopcion1" Association="Self.FK_AdopcionEstado_Adopcion1">
+            <End Role="Adopcion" EntitySet="Adopcion" />
+            <End Role="AdopcionEstado" EntitySet="AdopcionEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdopcionEstado_Estado" Association="Self.FK_AdopcionEstado_Estado">
+            <End Role="Estado" EntitySet="Estado" />
+            <End Role="AdopcionEstado" EntitySet="AdopcionEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donacion_Mascota" Association="Self.FK_Donacion_Mascota">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Donacion" EntitySet="Donacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donacion_Persona" Association="Self.FK_Donacion_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Donacion" EntitySet="Donacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudio_Mascota" Association="Self.FK_Estudio_Mascota">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Estudio" EntitySet="Estudio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudio_TIpoEstudio" Association="Self.FK_Estudio_TIpoEstudio">
+            <End Role="TipoEstudio" EntitySet="TipoEstudio" />
+            <End Role="Estudio" EntitySet="Estudio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudio_Veterinario" Association="Self.FK_Estudio_Veterinario">
+            <End Role="Veterinario" EntitySet="Veterinario" />
+            <End Role="Estudio" EntitySet="Estudio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Local_Localidad" Association="Self.FK_Local_Localidad">
+            <End Role="Localidad" EntitySet="Localidad" />
+            <End Role="Local" EntitySet="Local" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Local_Provincia" Association="Self.FK_Local_Provincia">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Local" EntitySet="Local" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Localidad_Provincia" Association="Self.FK_Localidad_Provincia">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Localidad" EntitySet="Localidad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mascota_Raza" Association="Self.FK_Mascota_Raza">
+            <End Role="Raza" EntitySet="Raza" />
+            <End Role="Mascota" EntitySet="Mascota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mascota_Tamaño" Association="Self.FK_Mascota_Tamaño">
+            <End Role="Tamaño" EntitySet="Tamaño" />
+            <End Role="Mascota" EntitySet="Mascota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Multimedia_Mascota" Association="Self.FK_Multimedia_Mascota">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Multimedia" EntitySet="Multimedia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Persona_Localidad" Association="Self.FK_Persona_Localidad">
+            <End Role="Localidad" EntitySet="Localidad" />
+            <End Role="Persona" EntitySet="Persona" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Persona" Association="Self.FK_Usuario_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Veterinario_Persona" Association="Self.FK_Veterinario_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Veterinario" EntitySet="Veterinario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VeterinarioLocal_Local" Association="Self.FK_VeterinarioLocal_Local">
+            <End Role="Local" EntitySet="Local" />
+            <End Role="VeterinarioLocal" EntitySet="VeterinarioLocal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VeterinarioLocal_Veterinario" Association="Self.FK_VeterinarioLocal_Veterinario">
+            <End Role="Veterinario" EntitySet="Veterinario" />
+            <End Role="VeterinarioLocal" EntitySet="VeterinarioLocal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visita_Mascota" Association="Self.FK_Visita_Mascota">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Visita" EntitySet="Visita" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visita_Veterinario" Association="Self.FK_Visita_Veterinario">
+            <End Role="Veterinario" EntitySet="Veterinario" />
+            <End Role="Visita" EntitySet="Visita" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MascotasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Adopcion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="personaId" Type="Int32" Nullable="false" />
+          <Property Name="mascotaId" Type="Int32" Nullable="false" />
+          <Property Name="personaAdoptaId" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="tipoContratoId" Type="Int32" />
+          <NavigationProperty Name="Mascota" Relationship="Self.FK_Adopcion_Mascota" FromRole="Adopcion" ToRole="Mascota" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Adopcion_Persona" FromRole="Adopcion" ToRole="Persona" />
+          <NavigationProperty Name="Persona1" Relationship="Self.FK_Adopcion_Persona1" FromRole="Adopcion" ToRole="Persona" />
+          <NavigationProperty Name="TipoContrato" Relationship="Self.FK_Adopcion_TipoContrato" FromRole="Adopcion" ToRole="TipoContrato" />
+          <NavigationProperty Name="AdopcionEstado" Relationship="Self.FK_AdopcionEstado_Adopcion1" FromRole="Adopcion" ToRole="AdopcionEstado" />
+        </EntityType>
+        <EntityType Name="AdopcionEstado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="adopcionId" Type="Int32" Nullable="false" />
+          <Property Name="estadoId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Adopcion" Relationship="Self.FK_AdopcionEstado_Adopcion1" FromRole="AdopcionEstado" ToRole="Adopcion" />
+          <NavigationProperty Name="Estado" Relationship="Self.FK_AdopcionEstado_Estado" FromRole="AdopcionEstado" ToRole="Estado" />
+        </EntityType>
+        <EntityType Name="Donacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="personaId" Type="Int32" Nullable="false" />
+          <Property Name="mascotaId" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="monto" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Mascota" Relationship="Self.FK_Donacion_Mascota" FromRole="Donacion" ToRole="Mascota" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Donacion_Persona" FromRole="Donacion" ToRole="Persona" />
+        </EntityType>
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AdopcionEstado" Relationship="Self.FK_AdopcionEstado_Estado" FromRole="Estado" ToRole="AdopcionEstado" />
+        </EntityType>
+        <EntityType Name="Estudio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mascotaId" Type="Int32" Nullable="false" />
+          <Property Name="tipoEstudioId" Type="Int32" Nullable="false" />
+          <Property Name="fecha_realizacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="veterinarioId" Type="Int32" />
+          <Property Name="fecha_vencimiento" Type="DateTime" Precision="0" />
+          <Property Name="observaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Mascota" Relationship="Self.FK_Estudio_Mascota" FromRole="Estudio" ToRole="Mascota" />
+          <NavigationProperty Name="TipoEstudio" Relationship="Self.FK_Estudio_TIpoEstudio" FromRole="Estudio" ToRole="TipoEstudio" />
+          <NavigationProperty Name="Veterinario" Relationship="Self.FK_Estudio_Veterinario" FromRole="Estudio" ToRole="Veterinario" />
+        </EntityType>
+        <EntityType Name="Local">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="provinciaId" Type="Int32" />
+          <Property Name="localidadId" Type="Int32" />
+          <Property Name="domicilio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="razon_social" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Localidad" Relationship="Self.FK_Local_Localidad" FromRole="Local" ToRole="Localidad" />
+          <NavigationProperty Name="Provincia" Relationship="Self.FK_Local_Provincia" FromRole="Local" ToRole="Provincia" />
+          <NavigationProperty Name="Veterinario" Relationship="Self.VeterinarioLocal" FromRole="Local" ToRole="Veterinario" />
+        </EntityType>
+        <EntityType Name="Localidad">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="provinciaId" Type="Int32" />
+          <NavigationProperty Name="Local" Relationship="Self.FK_Local_Localidad" FromRole="Localidad" ToRole="Local" />
+          <NavigationProperty Name="Provincia" Relationship="Self.FK_Localidad_Provincia" FromRole="Localidad" ToRole="Provincia" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Persona_Localidad" FromRole="Localidad" ToRole="Persona" />
+        </EntityType>
+        <EntityType Name="Mascota">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="razaId" Type="Int32" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="fecha_nacimiento" Type="DateTime" Precision="0" />
+          <Property Name="color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tamañoId" Type="Int32" />
+          <Property Name="caracter" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Adopcion" Relationship="Self.FK_Adopcion_Mascota" FromRole="Mascota" ToRole="Adopcion" />
+          <NavigationProperty Name="Donacion" Relationship="Self.FK_Donacion_Mascota" FromRole="Mascota" ToRole="Donacion" />
+          <NavigationProperty Name="Estudio" Relationship="Self.FK_Estudio_Mascota" FromRole="Mascota" ToRole="Estudio" />
+          <NavigationProperty Name="Raza" Relationship="Self.FK_Mascota_Raza" FromRole="Mascota" ToRole="Raza" />
+          <NavigationProperty Name="Tamaño" Relationship="Self.FK_Mascota_Tamaño" FromRole="Mascota" ToRole="Tamaño" />
+          <NavigationProperty Name="Multimedia" Relationship="Self.FK_Multimedia_Mascota" FromRole="Mascota" ToRole="Multimedia" />
+          <NavigationProperty Name="Visita" Relationship="Self.FK_Visita_Mascota" FromRole="Mascota" ToRole="Visita" />
+        </EntityType>
+        <EntityType Name="Multimedia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mascotaId" Type="Int32" Nullable="false" />
+          <Property Name="tipo_archivo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ruta" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_publicacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Mascota" Relationship="Self.FK_Multimedia_Mascota" FromRole="Multimedia" ToRole="Mascota" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dni" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_nacimiento" Type="DateTime" Precision="0" />
+          <Property Name="cbu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="calificacion" Type="Double" />
+          <Property Name="localidadId" Type="Int32" />
+          <Property Name="domicilio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Adopcion" Relationship="Self.FK_Adopcion_Persona" FromRole="Persona" ToRole="Adopcion" />
+          <NavigationProperty Name="Adopcion1" Relationship="Self.FK_Adopcion_Persona1" FromRole="Persona" ToRole="Adopcion" />
+          <NavigationProperty Name="Donacion" Relationship="Self.FK_Donacion_Persona" FromRole="Persona" ToRole="Donacion" />
+          <NavigationProperty Name="Localidad" Relationship="Self.FK_Persona_Localidad" FromRole="Persona" ToRole="Localidad" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Persona" FromRole="Persona" ToRole="Usuario" />
+          <NavigationProperty Name="Veterinario" Relationship="Self.FK_Veterinario_Persona" FromRole="Persona" ToRole="Veterinario" />
+        </EntityType>
+        <EntityType Name="Provincia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Local" Relationship="Self.FK_Local_Provincia" FromRole="Provincia" ToRole="Local" />
+          <NavigationProperty Name="Localidad" Relationship="Self.FK_Localidad_Provincia" FromRole="Provincia" ToRole="Localidad" />
+        </EntityType>
+        <EntityType Name="Raza">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Mascota" Relationship="Self.FK_Mascota_Raza" FromRole="Raza" ToRole="Mascota" />
+        </EntityType>
+        <EntityType Name="Tamaño">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Mascota" Relationship="Self.FK_Mascota_Tamaño" FromRole="Tamaño" ToRole="Mascota" />
+        </EntityType>
+        <EntityType Name="TipoContrato">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="terminos" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Adopcion" Relationship="Self.FK_Adopcion_TipoContrato" FromRole="TipoContrato" ToRole="Adopcion" />
+        </EntityType>
+        <EntityType Name="TipoEstudio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="periodo_validez" Type="Int32" />
+          <NavigationProperty Name="Estudio" Relationship="Self.FK_Estudio_TIpoEstudio" FromRole="TipoEstudio" ToRole="Estudio" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="usuarioId" />
+          </Key>
+          <Property Name="usuarioId" Type="Int32" Nullable="false" />
+          <Property Name="contraseña" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="habilitado" Type="Boolean" />
+          <Property Name="ultima_conexion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Usuario_Persona" FromRole="Usuario" ToRole="Persona" />
+        </EntityType>
+        <EntityType Name="Veterinario">
+          <Key>
+            <PropertyRef Name="veterinarioId" />
+          </Key>
+          <Property Name="veterinarioId" Type="Int32" Nullable="false" />
+          <Property Name="matricula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="habilitados" Type="Boolean" />
+          <NavigationProperty Name="Estudio" Relationship="Self.FK_Estudio_Veterinario" FromRole="Veterinario" ToRole="Estudio" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Veterinario_Persona" FromRole="Veterinario" ToRole="Persona" />
+          <NavigationProperty Name="Visita" Relationship="Self.FK_Visita_Veterinario" FromRole="Veterinario" ToRole="Visita" />
+          <NavigationProperty Name="Local" Relationship="Self.VeterinarioLocal" FromRole="Veterinario" ToRole="Local" />
+        </EntityType>
+        <EntityType Name="Visita">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="veterinarioId" Type="Int32" Nullable="false" />
+          <Property Name="mascotaId" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="monto" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Mascota" Relationship="Self.FK_Visita_Mascota" FromRole="Visita" ToRole="Mascota" />
+          <NavigationProperty Name="Veterinario" Relationship="Self.FK_Visita_Veterinario" FromRole="Visita" ToRole="Veterinario" />
+        </EntityType>
+        <Association Name="FK_Adopcion_Mascota">
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="1" />
+          <End Role="Adopcion" Type="Self.Adopcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adopcion">
+              <PropertyRef Name="mascotaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adopcion_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Adopcion" Type="Self.Adopcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adopcion">
+              <PropertyRef Name="personaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adopcion_Persona1">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Adopcion" Type="Self.Adopcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adopcion">
+              <PropertyRef Name="personaAdoptaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adopcion_TipoContrato">
+          <End Role="TipoContrato" Type="Self.TipoContrato" Multiplicity="0..1" />
+          <End Role="Adopcion" Type="Self.Adopcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoContrato">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Adopcion">
+              <PropertyRef Name="tipoContratoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdopcionEstado_Adopcion1">
+          <End Role="Adopcion" Type="Self.Adopcion" Multiplicity="1" />
+          <End Role="AdopcionEstado" Type="Self.AdopcionEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adopcion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdopcionEstado">
+              <PropertyRef Name="adopcionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdopcionEstado_Estado">
+          <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+          <End Role="AdopcionEstado" Type="Self.AdopcionEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdopcionEstado">
+              <PropertyRef Name="estadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donacion_Mascota">
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="1" />
+          <End Role="Donacion" Type="Self.Donacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Donacion">
+              <PropertyRef Name="mascotaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donacion_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Donacion" Type="Self.Donacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Donacion">
+              <PropertyRef Name="personaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudio_Mascota">
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="1" />
+          <End Role="Estudio" Type="Self.Estudio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estudio">
+              <PropertyRef Name="mascotaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudio_TIpoEstudio">
+          <End Role="TipoEstudio" Type="Self.TipoEstudio" Multiplicity="1" />
+          <End Role="Estudio" Type="Self.Estudio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoEstudio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estudio">
+              <PropertyRef Name="tipoEstudioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudio_Veterinario">
+          <End Role="Veterinario" Type="Self.Veterinario" Multiplicity="0..1" />
+          <End Role="Estudio" Type="Self.Estudio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veterinario">
+              <PropertyRef Name="veterinarioId" />
+            </Principal>
+            <Dependent Role="Estudio">
+              <PropertyRef Name="veterinarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Local_Localidad">
+          <End Role="Localidad" Type="Self.Localidad" Multiplicity="0..1" />
+          <End Role="Local" Type="Self.Local" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Local">
+              <PropertyRef Name="localidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Local_Provincia">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="0..1" />
+          <End Role="Local" Type="Self.Local" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Local">
+              <PropertyRef Name="provinciaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Localidad_Provincia">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="0..1" />
+          <End Role="Localidad" Type="Self.Localidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Localidad">
+              <PropertyRef Name="provinciaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Persona_Localidad">
+          <End Role="Localidad" Type="Self.Localidad" Multiplicity="0..1" />
+          <End Role="Persona" Type="Self.Persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Persona">
+              <PropertyRef Name="localidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mascota_Raza">
+          <End Role="Raza" Type="Self.Raza" Multiplicity="0..1" />
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raza">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mascota">
+              <PropertyRef Name="razaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mascota_Tamaño">
+          <End Role="Tamaño" Type="Self.Tamaño" Multiplicity="0..1" />
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tamaño">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mascota">
+              <PropertyRef Name="tamañoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Multimedia_Mascota">
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="1" />
+          <End Role="Multimedia" Type="Self.Multimedia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Multimedia">
+              <PropertyRef Name="mascotaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visita_Mascota">
+          <End Role="Mascota" Type="Self.Mascota" Multiplicity="1" />
+          <End Role="Visita" Type="Self.Visita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mascota">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Visita">
+              <PropertyRef Name="mascotaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Veterinario_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Veterinario" Type="Self.Veterinario" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Veterinario">
+              <PropertyRef Name="veterinarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visita_Veterinario">
+          <End Role="Veterinario" Type="Self.Veterinario" Multiplicity="1" />
+          <End Role="Visita" Type="Self.Visita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veterinario">
+              <PropertyRef Name="veterinarioId" />
+            </Principal>
+            <Dependent Role="Visita">
+              <PropertyRef Name="veterinarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VeterinarioLocal">
+          <End Role="Local" Type="Self.Local" Multiplicity="*" />
+          <End Role="Veterinario" Type="Self.Veterinario" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="MascotasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Adopcion" EntityType="Self.Adopcion" />
+          <EntitySet Name="AdopcionEstado" EntityType="Self.AdopcionEstado" />
+          <EntitySet Name="Donacion" EntityType="Self.Donacion" />
+          <EntitySet Name="Estado" EntityType="Self.Estado" />
+          <EntitySet Name="Estudio" EntityType="Self.Estudio" />
+          <EntitySet Name="Local" EntityType="Self.Local" />
+          <EntitySet Name="Localidad" EntityType="Self.Localidad" />
+          <EntitySet Name="Mascota" EntityType="Self.Mascota" />
+          <EntitySet Name="Multimedia" EntityType="Self.Multimedia" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" />
+          <EntitySet Name="Provincia" EntityType="Self.Provincia" />
+          <EntitySet Name="Raza" EntityType="Self.Raza" />
+          <EntitySet Name="Tamaño" EntityType="Self.Tamaño" />
+          <EntitySet Name="TipoContrato" EntityType="Self.TipoContrato" />
+          <EntitySet Name="TipoEstudio" EntityType="Self.TipoEstudio" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <EntitySet Name="Veterinario" EntityType="Self.Veterinario" />
+          <EntitySet Name="Visita" EntityType="Self.Visita" />
+          <AssociationSet Name="FK_Adopcion_Mascota" Association="Self.FK_Adopcion_Mascota">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Adopcion" EntitySet="Adopcion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adopcion_Persona" Association="Self.FK_Adopcion_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Adopcion" EntitySet="Adopcion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adopcion_Persona1" Association="Self.FK_Adopcion_Persona1">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Adopcion" EntitySet="Adopcion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adopcion_TipoContrato" Association="Self.FK_Adopcion_TipoContrato">
+            <End Role="TipoContrato" EntitySet="TipoContrato" />
+            <End Role="Adopcion" EntitySet="Adopcion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdopcionEstado_Adopcion1" Association="Self.FK_AdopcionEstado_Adopcion1">
+            <End Role="Adopcion" EntitySet="Adopcion" />
+            <End Role="AdopcionEstado" EntitySet="AdopcionEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdopcionEstado_Estado" Association="Self.FK_AdopcionEstado_Estado">
+            <End Role="Estado" EntitySet="Estado" />
+            <End Role="AdopcionEstado" EntitySet="AdopcionEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donacion_Mascota" Association="Self.FK_Donacion_Mascota">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Donacion" EntitySet="Donacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donacion_Persona" Association="Self.FK_Donacion_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Donacion" EntitySet="Donacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudio_Mascota" Association="Self.FK_Estudio_Mascota">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Estudio" EntitySet="Estudio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudio_TIpoEstudio" Association="Self.FK_Estudio_TIpoEstudio">
+            <End Role="TipoEstudio" EntitySet="TipoEstudio" />
+            <End Role="Estudio" EntitySet="Estudio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudio_Veterinario" Association="Self.FK_Estudio_Veterinario">
+            <End Role="Veterinario" EntitySet="Veterinario" />
+            <End Role="Estudio" EntitySet="Estudio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Local_Localidad" Association="Self.FK_Local_Localidad">
+            <End Role="Localidad" EntitySet="Localidad" />
+            <End Role="Local" EntitySet="Local" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Local_Provincia" Association="Self.FK_Local_Provincia">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Local" EntitySet="Local" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Localidad_Provincia" Association="Self.FK_Localidad_Provincia">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Localidad" EntitySet="Localidad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Persona_Localidad" Association="Self.FK_Persona_Localidad">
+            <End Role="Localidad" EntitySet="Localidad" />
+            <End Role="Persona" EntitySet="Persona" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mascota_Raza" Association="Self.FK_Mascota_Raza">
+            <End Role="Raza" EntitySet="Raza" />
+            <End Role="Mascota" EntitySet="Mascota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mascota_Tamaño" Association="Self.FK_Mascota_Tamaño">
+            <End Role="Tamaño" EntitySet="Tamaño" />
+            <End Role="Mascota" EntitySet="Mascota" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Multimedia_Mascota" Association="Self.FK_Multimedia_Mascota">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Multimedia" EntitySet="Multimedia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visita_Mascota" Association="Self.FK_Visita_Mascota">
+            <End Role="Mascota" EntitySet="Mascota" />
+            <End Role="Visita" EntitySet="Visita" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Persona" Association="Self.FK_Usuario_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Veterinario_Persona" Association="Self.FK_Veterinario_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Veterinario" EntitySet="Veterinario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visita_Veterinario" Association="Self.FK_Visita_Veterinario">
+            <End Role="Veterinario" EntitySet="Veterinario" />
+            <End Role="Visita" EntitySet="Visita" />
+          </AssociationSet>
+          <AssociationSet Name="VeterinarioLocal" Association="Self.VeterinarioLocal">
+            <End Role="Local" EntitySet="Local" />
+            <End Role="Veterinario" EntitySet="Veterinario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MascotasModelStoreContainer" CdmEntityContainer="MascotasEntities">
+          <EntitySetMapping Name="Adopcion">
+            <EntityTypeMapping TypeName="MascotasModel.Adopcion">
+              <MappingFragment StoreEntitySet="Adopcion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="personaId" ColumnName="personaId" />
+                <ScalarProperty Name="mascotaId" ColumnName="mascotaId" />
+                <ScalarProperty Name="personaAdoptaId" ColumnName="personaAdoptaId" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="tipoContratoId" ColumnName="tipoContratoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdopcionEstado">
+            <EntityTypeMapping TypeName="MascotasModel.AdopcionEstado">
+              <MappingFragment StoreEntitySet="AdopcionEstado">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="adopcionId" ColumnName="adopcionId" />
+                <ScalarProperty Name="estadoId" ColumnName="estadoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Donacion">
+            <EntityTypeMapping TypeName="MascotasModel.Donacion">
+              <MappingFragment StoreEntitySet="Donacion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="personaId" ColumnName="personaId" />
+                <ScalarProperty Name="mascotaId" ColumnName="mascotaId" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="monto" ColumnName="monto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estado">
+            <EntityTypeMapping TypeName="MascotasModel.Estado">
+              <MappingFragment StoreEntitySet="Estado">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estudio">
+            <EntityTypeMapping TypeName="MascotasModel.Estudio">
+              <MappingFragment StoreEntitySet="Estudio">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="mascotaId" ColumnName="mascotaId" />
+                <ScalarProperty Name="tipoEstudioId" ColumnName="tipoEstudioId" />
+                <ScalarProperty Name="fecha_realizacion" ColumnName="fecha_realizacion" />
+                <ScalarProperty Name="veterinarioId" ColumnName="veterinarioId" />
+                <ScalarProperty Name="fecha_vencimiento" ColumnName="fecha_vencimiento" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Local">
+            <EntityTypeMapping TypeName="MascotasModel.Local">
+              <MappingFragment StoreEntitySet="Local">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="provinciaId" ColumnName="provinciaId" />
+                <ScalarProperty Name="localidadId" ColumnName="localidadId" />
+                <ScalarProperty Name="domicilio" ColumnName="domicilio" />
+                <ScalarProperty Name="razon_social" ColumnName="razon_social" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Localidad">
+            <EntityTypeMapping TypeName="MascotasModel.Localidad">
+              <MappingFragment StoreEntitySet="Localidad">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="provinciaId" ColumnName="provinciaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mascota">
+            <EntityTypeMapping TypeName="MascotasModel.Mascota">
+              <MappingFragment StoreEntitySet="Mascota">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="razaId" ColumnName="razaId" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="fecha_nacimiento" ColumnName="fecha_nacimiento" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="tamañoId" ColumnName="tamañoId" />
+                <ScalarProperty Name="caracter" ColumnName="caracter" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Multimedia">
+            <EntityTypeMapping TypeName="MascotasModel.Multimedia">
+              <MappingFragment StoreEntitySet="Multimedia">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="mascotaId" ColumnName="mascotaId" />
+                <ScalarProperty Name="tipo_archivo" ColumnName="tipo_archivo" />
+                <ScalarProperty Name="ruta" ColumnName="ruta" />
+                <ScalarProperty Name="fecha_publicacion" ColumnName="fecha_publicacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Persona">
+            <EntityTypeMapping TypeName="MascotasModel.Persona">
+              <MappingFragment StoreEntitySet="Persona">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="dni" ColumnName="dni" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="fecha_nacimiento" ColumnName="fecha_nacimiento" />
+                <ScalarProperty Name="cbu" ColumnName="cbu" />
+                <ScalarProperty Name="calificacion" ColumnName="calificacion" />
+                <ScalarProperty Name="localidadId" ColumnName="localidadId" />
+                <ScalarProperty Name="domicilio" ColumnName="domicilio" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provincia">
+            <EntityTypeMapping TypeName="MascotasModel.Provincia">
+              <MappingFragment StoreEntitySet="Provincia">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Raza">
+            <EntityTypeMapping TypeName="MascotasModel.Raza">
+              <MappingFragment StoreEntitySet="Raza">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tamaño">
+            <EntityTypeMapping TypeName="MascotasModel.Tamaño">
+              <MappingFragment StoreEntitySet="Tamaño">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoContrato">
+            <EntityTypeMapping TypeName="MascotasModel.TipoContrato">
+              <MappingFragment StoreEntitySet="TipoContrato">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="terminos" ColumnName="terminos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoEstudio">
+            <EntityTypeMapping TypeName="MascotasModel.TipoEstudio">
+              <MappingFragment StoreEntitySet="TipoEstudio">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="periodo_validez" ColumnName="periodo_validez" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="MascotasModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+                <ScalarProperty Name="contraseña" ColumnName="contraseña" />
+                <ScalarProperty Name="habilitado" ColumnName="habilitado" />
+                <ScalarProperty Name="ultima_conexion" ColumnName="ultima_conexion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Veterinario">
+            <EntityTypeMapping TypeName="MascotasModel.Veterinario">
+              <MappingFragment StoreEntitySet="Veterinario">
+                <ScalarProperty Name="veterinarioId" ColumnName="veterinarioId" />
+                <ScalarProperty Name="matricula" ColumnName="matricula" />
+                <ScalarProperty Name="habilitados" ColumnName="habilitados" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visita">
+            <EntityTypeMapping TypeName="MascotasModel.Visita">
+              <MappingFragment StoreEntitySet="Visita">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="veterinarioId" ColumnName="veterinarioId" />
+                <ScalarProperty Name="mascotaId" ColumnName="mascotaId" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="monto" ColumnName="monto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="VeterinarioLocal" TypeName="MascotasModel.VeterinarioLocal" StoreEntitySet="VeterinarioLocal">
+            <EndProperty Name="Local">
+              <ScalarProperty Name="Id" ColumnName="localId" />
+            </EndProperty>
+            <EndProperty Name="Veterinario">
+              <ScalarProperty Name="veterinarioId" ColumnName="veterinarioId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

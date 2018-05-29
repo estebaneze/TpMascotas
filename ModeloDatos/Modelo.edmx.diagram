@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3be853f42b464e908a8b0eda7492a7df" Name="Diagram1">
+        <EntityTypeShape EntityType="MascotasModel.Adopcion" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.AdopcionEstado" Width="1.5" PointX="7.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Donacion" Width="1.5" PointX="8.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Estado" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Estudio" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Local" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Localidad" Width="1.5" PointX="1.5" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Mascota" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Multimedia" Width="1.5" PointX="5.25" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Persona" Width="1.5" PointX="0.75" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Provincia" Width="1.5" PointX="1.5" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Raza" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Tamaño" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.TipoContrato" Width="1.5" PointX="3" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.TipoEstudio" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Usuario" Width="1.5" PointX="3" PointY="27" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Veterinario" Width="1.5" PointX="3" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MascotasModel.Visita" Width="1.5" PointX="5.25" PointY="12.375" IsExpanded="true" />
+        <AssociationConnector Association="MascotasModel.FK_Adopcion_Mascota" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Adopcion_Persona" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Adopcion_Persona1" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Adopcion_TipoContrato" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_AdopcionEstado_Adopcion1" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_AdopcionEstado_Estado" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Donacion_Mascota" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Donacion_Persona" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Estudio_Mascota" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Estudio_TIpoEstudio" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Estudio_Veterinario" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Local_Localidad" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Local_Provincia" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Localidad_Provincia" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Persona_Localidad" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Mascota_Raza" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Mascota_Tamaño" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Multimedia_Mascota" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Visita_Mascota" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Usuario_Persona" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Veterinario_Persona" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.FK_Visita_Veterinario" ManuallyRouted="false" />
+        <AssociationConnector Association="MascotasModel.VeterinarioLocal" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
