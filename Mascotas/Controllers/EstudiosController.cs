@@ -103,6 +103,13 @@ namespace Mascotas.Controllers
             return Ok(estudio);
         }
 
+        [Route("GetEstudioMascota")]
+        [HttpGet] // There are HttpGet, HttpPost, HttpPut, HttpDelete.
+        public IQueryable<Estudio> GetEstudiosMascota(int id)
+        {
+            return db.Estudios.Where(x => x.mascotaId == id).OrderByDescending(y => y.fecha_realizacion);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
