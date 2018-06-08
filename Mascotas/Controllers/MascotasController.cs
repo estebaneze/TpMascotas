@@ -11,9 +11,11 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Mascotas.Models;
 using ModeloDatos;
-/*LOO*/
+using System.Web.Http.Cors;
+
 namespace Mascotas.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class MascotasController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -102,7 +104,7 @@ namespace Mascotas.Controllers
 
             return Ok(mascota);
         }
-
+        
         [Route("GetMascotasNombre")]
         [HttpGet] // There are HttpGet, HttpPost, HttpPut, HttpDelete.
         public IQueryable<Mascota> GetMascotasNombre(string nombre)

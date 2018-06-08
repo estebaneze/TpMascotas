@@ -11,9 +11,11 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Mascotas.Models;
 using ModeloDatos;
+using System.Web.Http.Cors;
 
 namespace Mascotas.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TipoContratoesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
