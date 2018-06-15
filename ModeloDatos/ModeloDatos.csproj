@@ -118,6 +118,9 @@
     <Compile Include="Raza.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Tamaño.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>

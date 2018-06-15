@@ -46,6 +46,7 @@
         <AssociationConnector Association="MascotasModel.FK_Veterinario_Persona" ManuallyRouted="false" />
         <AssociationConnector Association="MascotasModel.FK_Visita_Veterinario" ManuallyRouted="false" />
         <AssociationConnector Association="MascotasModel.VeterinarioLocal" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MascotasModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

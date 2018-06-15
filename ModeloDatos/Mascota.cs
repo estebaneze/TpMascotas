@@ -29,10 +29,17 @@ namespace ModeloDatos
         public string nombre { get; set; }
         public string sexo { get; set; }
         public Nullable<System.DateTime> fecha_nacimiento { get; set; }
+                
+        public string edad
+        {
+            get { return ((DateTime.Today.Year - fecha_nacimiento.Value.Year).ToString() + " Años"); }
+        }
+
         public string color { get; set; }
         public Nullable<int> tamañoId { get; set; }
         public string caracter { get; set; }
         public string observaciones { get; set; }
+        public string avatar { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Adopcion> Adopcion { get; set; }

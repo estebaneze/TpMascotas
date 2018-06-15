@@ -84,6 +84,7 @@
           <Property Name="tamañoId" Type="int" />
           <Property Name="caracter" Type="varchar" MaxLength="50" />
           <Property Name="observaciones" Type="varchar" MaxLength="100" />
+          <Property Name="avatar" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Multimedia">
           <Key>
@@ -123,6 +124,16 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Tamaño">
           <Key>
@@ -482,6 +493,7 @@
           <EntitySet Name="Persona" EntityType="Self.Persona" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Raza" EntityType="Self.Raza" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tamaño" EntityType="Self.Tamaño" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoContrato" EntityType="Self.TipoContrato" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoEstudio" EntityType="Self.TipoEstudio" Schema="dbo" store:Type="Tables" />
@@ -695,6 +707,7 @@
           <NavigationProperty Name="Tamaño" Relationship="Self.FK_Mascota_Tamaño" FromRole="Mascota" ToRole="Tamaño" />
           <NavigationProperty Name="Multimedia" Relationship="Self.FK_Multimedia_Mascota" FromRole="Mascota" ToRole="Multimedia" />
           <NavigationProperty Name="Visita" Relationship="Self.FK_Visita_Mascota" FromRole="Mascota" ToRole="Visita" />
+          <Property Name="avatar" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Multimedia">
           <Key>
@@ -1183,7 +1196,18 @@
             <End Role="Local" EntitySet="Local" />
             <End Role="Veterinario" EntitySet="Veterinario" />
           </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="MascotasModel.sysdiagrams" />
         </EntityContainer>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1266,6 +1290,7 @@
           <EntitySetMapping Name="Mascota">
             <EntityTypeMapping TypeName="MascotasModel.Mascota">
               <MappingFragment StoreEntitySet="Mascota">
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="razaId" ColumnName="razaId" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -1384,6 +1409,17 @@
               <ScalarProperty Name="veterinarioId" ColumnName="veterinarioId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MascotasModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

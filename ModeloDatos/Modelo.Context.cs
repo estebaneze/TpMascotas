@@ -43,5 +43,6 @@ namespace ModeloDatos
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Veterinario> Veterinario { get; set; }
         public virtual DbSet<Visita> Visita { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
 }
