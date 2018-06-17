@@ -32,7 +32,19 @@ namespace ModeloDatos
                 
         public string edad
         {
-            get { return ((DateTime.Today.Year - fecha_nacimiento.Value.Year).ToString() + " Años"); }
+            get
+            {
+                int dias = (int)(DateTime.Today - fecha_nacimiento.Value).TotalDays;
+                int años = dias / 365;
+                int meses = (dias % 365) / 31;
+
+                switch (años)
+                {
+                    case 0: return string.Format("{0} Meses", meses);
+                    case 1: return string.Format("{0} Año", años);
+                    default: return string.Format("{0} Años", años);
+                }
+            }
         }
 
         public string color { get; set; }
