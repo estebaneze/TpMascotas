@@ -23,6 +23,9 @@ namespace Mascotas.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            //this.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
+            Configuration.LazyLoadingEnabled = true;
+            Configuration.ProxyCreationEnabled = true;
         }
         
         public static ApplicationDbContext Create()

@@ -18,42 +18,52 @@ namespace Mascotas.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class VisitasController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private MascotasEntities db = new MascotasEntities();
 
         // GET: api/Visitas
-        public IQueryable<Visita> GetVisitas()
+        public IQueryable<VisitaPOCO> GetVisitas()
         {
-            return db.Visitas;
+            var visitas = from vis in db.Visita
+                              select new VisitaPOCO
+                                {
+                                    Id = vis.Id,
+                                    veterinarioId = vis.veterinarioId,
+                                    mascotaId = vis.mascotaId,
+                                    fecha = vis.fecha,
+                                    monto = vis.monto
+                                };
+
+            return visitas;
         }
 
         // GET: api/Visitas/5
-        [ResponseType(typeof(Visita))]
+        [ResponseType(typeof(VisitaPOCO))]
         public async Task<IHttpActionResult> GetVisita(int id)
         {
-            Visita visita = await db.Visitas.FindAsync(id);
+            Visita visita = await db.Visita.FindAsync(id);
             if (visita == null)
             {
                 return NotFound();
             }
 
-            return Ok(visita);
+            return Ok(new VisitaPOCO(visita));
         }
 
         // PUT: api/Visitas/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutVisita(int id, Visita visita)
+        public async Task<IHttpActionResult> PutVisita(int id, VisitaPOCO visitaParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != visita.Id)
+            if (id != visitaParametro.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(visita).State = EntityState.Modified;
+            db.Entry(visitaParametro).State = EntityState.Modified;
 
             try
             {
@@ -75,34 +85,34 @@ namespace Mascotas.Controllers
         }
 
         // POST: api/Visitas
-        [ResponseType(typeof(Visita))]
-        public async Task<IHttpActionResult> PostVisita(Visita visita)
+        [ResponseType(typeof(VisitaPOCO))]
+        public async Task<IHttpActionResult> PostVisita(VisitaPOCO visitaParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Visitas.Add(visita);
+            var visita = db.Visita.Add(visitaParametro.toDb());
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = visita.Id }, visita);
+            return CreatedAtRoute("DefaultApi", new { id = visita.Id }, new VisitaPOCO(visita));
         }
 
         // DELETE: api/Visitas/5
-        [ResponseType(typeof(Visita))]
+        [ResponseType(typeof(VisitaPOCO))]
         public async Task<IHttpActionResult> DeleteVisita(int id)
         {
-            Visita visita = await db.Visitas.FindAsync(id);
+            Visita visita = await db.Visita.FindAsync(id);
             if (visita == null)
             {
                 return NotFound();
             }
 
-            db.Visitas.Remove(visita);
+            db.Visita.Remove(visita);
             await db.SaveChangesAsync();
 
-            return Ok(visita);
+            return Ok(new VisitaPOCO(visita));
         }
 
         protected override void Dispose(bool disposing)
@@ -116,7 +126,7 @@ namespace Mascotas.Controllers
 
         private bool VisitaExists(int id)
         {
-            return db.Visitas.Count(e => e.Id == id) > 0;
+            return db.Visita.Count(e => e.Id == id) > 0;
         }
     }
 }

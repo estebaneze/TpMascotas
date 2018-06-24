@@ -18,42 +18,71 @@ namespace Mascotas.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PersonasController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private MascotasEntities db = new MascotasEntities();
 
         // GET: api/Personas
-        public IQueryable<Persona> GetPersonas()
+        public IQueryable<PersonaPOCO> GetPersonas()
         {
-            return db.Personas;
+            var persona = from per in db.Persona
+                          select new PersonaPOCO
+                          {
+                                Id = per.Id,
+                                dni = per.dni,
+                                apellido = per.apellido,
+                                nombre = per.nombre,
+                                fecha_nacimiento = per.fecha_nacimiento,
+                                cbu = per.cbu,
+                                calificacion = per.calificacion,
+                                localidadId = per.localidadId,
+                                domicilio = per.domicilio,
+                                email = per.email
+                            };
+            return persona;
         }
 
-        // GET: api/Personas/5
-        [ResponseType(typeof(Persona))]
-        public async Task<IHttpActionResult> GetPersona(int id)
+        [Route("GetPersonaDNI")]
+        [HttpGet] // There are HttpGet, HttpPost, HttpPut, HttpDelete.
+        [ResponseType(typeof(PersonaPOCO))]
+        public async Task<IHttpActionResult> GetPersonaDNI(string dni)
         {
-            Persona persona = await db.Personas.FindAsync(id);
+            Persona persona = await db.Persona.Where(x => x.dni == dni).FirstOrDefaultAsync();
+
             if (persona == null)
             {
                 return NotFound();
             }
 
-            return Ok(persona);
+            return Ok(new PersonaPOCO(persona));
+        }
+
+        // GET: api/Personas/5
+        [ResponseType(typeof(PersonaPOCO))]
+        public async Task<IHttpActionResult> GetPersona(int id)
+        {
+            Persona persona = await db.Persona.FindAsync(id);
+            if (persona == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new PersonaPOCO(persona));
         }
 
         // PUT: api/Personas/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutPersona(int id, Persona persona)
+        public async Task<IHttpActionResult> PutPersona(int id, PersonaPOCO personaParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != persona.Id)
+            if (id != personaParametro.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(persona).State = EntityState.Modified;
+            db.Entry(personaParametro.toDb()).State = EntityState.Modified;
 
             try
             {
@@ -75,51 +104,36 @@ namespace Mascotas.Controllers
         }
 
         // POST: api/Personas
-        [ResponseType(typeof(Persona))]
-        public async Task<IHttpActionResult> PostPersona(Persona persona)
+        [ResponseType(typeof(PersonaPOCO))]
+        public async Task<IHttpActionResult> PostPersona(PersonaPOCO personaParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Personas.Add(persona);
+            var persona = db.Persona.Add(personaParametro.toDb());
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = persona.Id }, persona);
+            return CreatedAtRoute("DefaultApi", new { id = persona.Id }, new PersonaPOCO(persona));
         }
 
         // DELETE: api/Personas/5
-        [ResponseType(typeof(Persona))]
+        [ResponseType(typeof(PersonaPOCO))]
         public async Task<IHttpActionResult> DeletePersona(int id)
         {
-            Persona persona = await db.Personas.FindAsync(id);
+            Persona persona = await db.Persona.FindAsync(id);
             if (persona == null)
             {
                 return NotFound();
             }
 
-            db.Personas.Remove(persona);
+            db.Persona.Remove(persona);
             await db.SaveChangesAsync();
 
-            return Ok(persona);
+            return Ok(new PersonaPOCO(persona));
         }
-
-        [Route("GetPersonaDNI")]
-        [HttpGet] // There are HttpGet, HttpPost, HttpPut, HttpDelete.
-        [ResponseType(typeof(Persona))]
-        public async Task<IHttpActionResult> GetPersonaDNI(string dni)
-        {
-            Persona persona = await db.Personas.Where(x => x.dni == dni).FirstOrDefaultAsync();
-
-            if (persona == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(persona);
-        }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -131,7 +145,7 @@ namespace Mascotas.Controllers
 
         private bool PersonaExists(int id)
         {
-            return db.Personas.Count(e => e.Id == id) > 0;
+            return db.Persona.Count(e => e.Id == id) > 0;
         }
     }
 }

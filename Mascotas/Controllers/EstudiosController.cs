@@ -18,42 +18,61 @@ namespace Mascotas.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class EstudiosController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private MascotasEntities db = new MascotasEntities();
 
         // GET: api/Estudios
-        public IQueryable<Estudio> GetEstudios()
+        public IQueryable<EstudioPOCO> GetEstudios()
         {
-            return db.Estudios;
+            var estudio = from est in db.Estudio
+                          select new EstudioPOCO
+                          {
+                                Id = est.Id,
+                                mascotaId = est.mascotaId,
+                                tipoEstudioId = est.tipoEstudioId,
+                                fecha_realizacion = est.fecha_realizacion,
+                                veterinarioId = est.veterinarioId,
+                                fecha_vencimiento = est.fecha_vencimiento,
+                                observaciones = est.observaciones
+                           };
+            return estudio;
+        }
+
+        [Route("GetEstudioMascota")]
+        [HttpGet] // There are HttpGet, HttpPost, HttpPut, HttpDelete.
+        public IQueryable<EstudioPOCO> GetEstudiosMascota(int id)
+        {
+            var estudio = this.GetEstudios().Where(x => x.mascotaId == id);
+            return estudio;
         }
 
         // GET: api/Estudios/5
-        [ResponseType(typeof(Estudio))]
+        [ResponseType(typeof(EstudioPOCO))]
         public async Task<IHttpActionResult> GetEstudio(int id)
         {
-            Estudio estudio = await db.Estudios.FindAsync(id);
+            Estudio estudio = await db.Estudio.FindAsync(id);
             if (estudio == null)
             {
                 return NotFound();
             }
 
-            return Ok(estudio);
+            return Ok(new EstudioPOCO(estudio));
         }
 
         // PUT: api/Estudios/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutEstudio(int id, Estudio estudio)
+        public async Task<IHttpActionResult> PutEstudio(int id, EstudioPOCO estudioParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != estudio.Id)
+            if (id != estudioParametro.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(estudio).State = EntityState.Modified;
+            db.Entry(estudioParametro.toDb()).State = EntityState.Modified;
 
             try
             {
@@ -75,43 +94,36 @@ namespace Mascotas.Controllers
         }
 
         // POST: api/Estudios
-        [ResponseType(typeof(Estudio))]
-        public async Task<IHttpActionResult> PostEstudio(Estudio estudio)
+        [ResponseType(typeof(EstudioPOCO))]
+        public async Task<IHttpActionResult> PostEstudio(EstudioPOCO estudioParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Estudios.Add(estudio);
+            var estudio = db.Estudio.Add(estudioParametro.toDb());
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = estudio.Id }, estudio);
+            return CreatedAtRoute("DefaultApi", new { id = estudio.Id }, new EstudioPOCO(estudio));
         }
 
         // DELETE: api/Estudios/5
-        [ResponseType(typeof(Estudio))]
+        [ResponseType(typeof(EstudioPOCO))]
         public async Task<IHttpActionResult> DeleteEstudio(int id)
         {
-            Estudio estudio = await db.Estudios.FindAsync(id);
+            Estudio estudio = await db.Estudio.FindAsync(id);
             if (estudio == null)
             {
                 return NotFound();
             }
 
-            db.Estudios.Remove(estudio);
+            db.Estudio.Remove(estudio);
             await db.SaveChangesAsync();
 
-            return Ok(estudio);
+            return Ok(new EstudioPOCO(estudio));
         }
-
-        [Route("GetEstudioMascota")]
-        [HttpGet] // There are HttpGet, HttpPost, HttpPut, HttpDelete.
-        public IQueryable<Estudio> GetEstudiosMascota(int id)
-        {
-            return db.Estudios.Where(x => x.mascotaId == id).OrderByDescending(y => y.fecha_realizacion);
-        }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -123,7 +135,7 @@ namespace Mascotas.Controllers
 
         private bool EstudioExists(int id)
         {
-            return db.Estudios.Count(e => e.Id == id) > 0;
+            return db.Estudio.Count(e => e.Id == id) > 0;
         }
     }
 }

@@ -18,16 +18,23 @@ namespace Mascotas.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TamañoController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private MascotasEntities db = new MascotasEntities();
 
         // GET: api/Tamaño
-        public IQueryable<Tamaño> GetTamaño()
+        public IQueryable<TamañoPOCO> GetTamaño()
         {
-            return db.Tamaño;
+            var tamaño = from tam in db.Tamaño
+                        select new TamañoPOCO
+                        {
+                            Id = tam.Id,
+                            descripcion = tam.descripcion
+                        };
+
+            return tamaño;
         }
 
         // GET: api/Tamaño/5
-        [ResponseType(typeof(Tamaño))]
+        [ResponseType(typeof(TamañoPOCO))]
         public async Task<IHttpActionResult> GetTamaño(int id)
         {
             Tamaño tamaño = await db.Tamaño.FindAsync(id);
@@ -36,24 +43,24 @@ namespace Mascotas.Controllers
                 return NotFound();
             }
 
-            return Ok(tamaño);
+            return Ok(new TamañoPOCO(tamaño));
         }
 
         // PUT: api/Tamaño/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutTamaño(int id, Tamaño tamaño)
+        public async Task<IHttpActionResult> PutTamaño(int id, TamañoPOCO tamañoParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != tamaño.Id)
+            if (id != tamañoParametro.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(tamaño).State = EntityState.Modified;
+            db.Entry(tamañoParametro.toDb()).State = EntityState.Modified;
 
             try
             {
@@ -75,22 +82,22 @@ namespace Mascotas.Controllers
         }
 
         // POST: api/Tamaño
-        [ResponseType(typeof(Tamaño))]
-        public async Task<IHttpActionResult> PostTamaño(Tamaño tamaño)
+        [ResponseType(typeof(TamañoPOCO))]
+        public async Task<IHttpActionResult> PostTamaño(TamañoPOCO tamañoParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Tamaño.Add(tamaño);
+            var tamaño = db.Tamaño.Add(tamañoParametro.toDb());
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = tamaño.Id }, tamaño);
+            return CreatedAtRoute("DefaultApi", new { id = tamaño.Id }, new TamañoPOCO(tamaño));
         }
 
         // DELETE: api/Tamaño/5
-        [ResponseType(typeof(Tamaño))]
+        [ResponseType(typeof(TamañoPOCO))]
         public async Task<IHttpActionResult> DeleteTamaño(int id)
         {
             Tamaño tamaño = await db.Tamaño.FindAsync(id);
@@ -102,7 +109,7 @@ namespace Mascotas.Controllers
             db.Tamaño.Remove(tamaño);
             await db.SaveChangesAsync();
 
-            return Ok(tamaño);
+            return Ok(new TamañoPOCO(tamaño));
         }
 
         protected override void Dispose(bool disposing)

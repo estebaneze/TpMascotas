@@ -18,42 +18,50 @@ namespace Mascotas.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UsuariosController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private MascotasEntities db = new MascotasEntities();
 
         // GET: api/Usuarios
-        public IQueryable<Usuario> GetUsuarios()
+        public IQueryable<UsuarioPOCO> GetUsuarios()
         {
-            return db.Usuarios;
+            var usuario = from usr in db.Usuario
+                              select new UsuarioPOCO
+                              {
+                                    usuarioId = usr.usuarioId,
+                                    contraseña = usr.contraseña,
+                                    habilitado = usr.habilitado,
+                                    ultima_conexion = usr.ultima_conexion,
+                                };
+            return usuario;
         }
 
         // GET: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
+        [ResponseType(typeof(UsuarioPOCO))]
         public async Task<IHttpActionResult> GetUsuario(int id)
         {
-            Usuario usuario = await db.Usuarios.FindAsync(id);
+            Usuario usuario = await db.Usuario.FindAsync(id);
             if (usuario == null)
             {
                 return NotFound();
             }
 
-            return Ok(usuario);
+            return Ok(new UsuarioPOCO(usuario));
         }
 
         // PUT: api/Usuarios/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutUsuario(int id, Usuario usuario)
+        public async Task<IHttpActionResult> PutUsuario(int id, UsuarioPOCO usuarioParmetro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != usuario.usuarioId)
+            if (id != usuarioParmetro.usuarioId)
             {
                 return BadRequest();
             }
 
-            db.Entry(usuario).State = EntityState.Modified;
+            db.Entry(usuarioParmetro.toDb()).State = EntityState.Modified;
 
             try
             {
@@ -75,15 +83,15 @@ namespace Mascotas.Controllers
         }
 
         // POST: api/Usuarios
-        [ResponseType(typeof(Usuario))]
-        public async Task<IHttpActionResult> PostUsuario(Usuario usuario)
+        [ResponseType(typeof(UsuarioPOCO))]
+        public async Task<IHttpActionResult> PostUsuario(UsuarioPOCO usuarioParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Usuarios.Add(usuario);
+            var usuario = db.Usuario.Add(usuarioParametro.toDb());
 
             try
             {
@@ -101,23 +109,23 @@ namespace Mascotas.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = usuario.usuarioId }, usuario);
+            return CreatedAtRoute("DefaultApi", new { id = usuario.usuarioId }, new UsuarioPOCO(usuario));
         }
 
         // DELETE: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
+        [ResponseType(typeof(UsuarioPOCO))]
         public async Task<IHttpActionResult> DeleteUsuario(int id)
         {
-            Usuario usuario = await db.Usuarios.FindAsync(id);
+            Usuario usuario = await db.Usuario.FindAsync(id);
             if (usuario == null)
             {
                 return NotFound();
             }
 
-            db.Usuarios.Remove(usuario);
+            db.Usuario.Remove(usuario);
             await db.SaveChangesAsync();
 
-            return Ok(usuario);
+            return Ok(new UsuarioPOCO(usuario));
         }
 
         protected override void Dispose(bool disposing)
@@ -131,7 +139,7 @@ namespace Mascotas.Controllers
 
         private bool UsuarioExists(int id)
         {
-            return db.Usuarios.Count(e => e.usuarioId == id) > 0;
+            return db.Usuario.Count(e => e.usuarioId == id) > 0;
         }
     }
 }

@@ -18,42 +18,49 @@ namespace Mascotas.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class VeterinariosController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private MascotasEntities db = new MascotasEntities();
 
         // GET: api/Veterinarios
-        public IQueryable<Veterinario> GetVeterinarios()
+        public IQueryable<VeterinarioPOCO> GetVeterinarios()
         {
-            return db.Veterinarios;
+            var veterinario = from vet in db.Veterinario
+                          select new VeterinarioPOCO
+                          {
+                                veterinarioId = vet.veterinarioId,
+                                matricula = vet.matricula,
+                                habilitados = vet.habilitados
+                            };
+            return veterinario;
         }
 
         // GET: api/Veterinarios/5
-        [ResponseType(typeof(Veterinario))]
+        [ResponseType(typeof(VeterinarioPOCO))]
         public async Task<IHttpActionResult> GetVeterinario(int id)
         {
-            Veterinario veterinario = await db.Veterinarios.FindAsync(id);
+            Veterinario veterinario = await db.Veterinario.FindAsync(id);
             if (veterinario == null)
             {
                 return NotFound();
             }
 
-            return Ok(veterinario);
+            return Ok(new VeterinarioPOCO(veterinario));
         }
 
         // PUT: api/Veterinarios/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutVeterinario(int id, Veterinario veterinario)
+        public async Task<IHttpActionResult> PutVeterinario(int id, VeterinarioPOCO veterinarioParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != veterinario.veterinarioId)
+            if (id != veterinarioParametro.veterinarioId)
             {
                 return BadRequest();
             }
 
-            db.Entry(veterinario).State = EntityState.Modified;
+            db.Entry(veterinarioParametro.toDb()).State = EntityState.Modified;
 
             try
             {
@@ -75,15 +82,15 @@ namespace Mascotas.Controllers
         }
 
         // POST: api/Veterinarios
-        [ResponseType(typeof(Veterinario))]
-        public async Task<IHttpActionResult> PostVeterinario(Veterinario veterinario)
+        [ResponseType(typeof(VeterinarioPOCO))]
+        public async Task<IHttpActionResult> PostVeterinario(VeterinarioPOCO veterinarioParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Veterinarios.Add(veterinario);
+            var veterinario = db.Veterinario.Add(veterinarioParametro.toDb());
 
             try
             {
@@ -101,23 +108,23 @@ namespace Mascotas.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = veterinario.veterinarioId }, veterinario);
+            return CreatedAtRoute("DefaultApi", new { id = veterinario.veterinarioId }, new VeterinarioPOCO(veterinario));
         }
 
         // DELETE: api/Veterinarios/5
-        [ResponseType(typeof(Veterinario))]
+        [ResponseType(typeof(VeterinarioPOCO))]
         public async Task<IHttpActionResult> DeleteVeterinario(int id)
         {
-            Veterinario veterinario = await db.Veterinarios.FindAsync(id);
+            Veterinario veterinario = await db.Veterinario.FindAsync(id);
             if (veterinario == null)
             {
                 return NotFound();
             }
 
-            db.Veterinarios.Remove(veterinario);
+            db.Veterinario.Remove(veterinario);
             await db.SaveChangesAsync();
 
-            return Ok(veterinario);
+            return Ok(new VeterinarioPOCO(veterinario));
         }
 
         protected override void Dispose(bool disposing)
@@ -131,7 +138,7 @@ namespace Mascotas.Controllers
 
         private bool VeterinarioExists(int id)
         {
-            return db.Veterinarios.Count(e => e.veterinarioId == id) > 0;
+            return db.Veterinario.Count(e => e.veterinarioId == id) > 0;
         }
     }
 }

@@ -18,42 +18,80 @@ namespace Mascotas.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class MascotasController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private MascotasEntities db = new MascotasEntities();
 
         // GET: api/Mascotas
-        public IQueryable<Mascota> GetMascotas()
+        public IQueryable<MascotaPOCO> GetMascotas()
         {
-            return db.Mascotas;
+            var mascotas = from mas in db.Mascota
+                           select new MascotaPOCO
+                           {
+                               Id = mas.Id,
+                               nombre = mas.nombre,
+                               tamañoId = mas.tamañoId,
+                               sexo = mas.sexo,
+                               razaId = mas.razaId,
+                               observaciones = mas.observaciones,
+                               color = mas.color,
+                               caracter = mas.caracter,
+                               avatar = mas.avatar,
+                               fecha_nacimiento = mas.fecha_nacimiento
+                           };
+
+            return mascotas;
+        }
+
+        [Route("GetMascotasNombre")]
+        [HttpGet] // There are HttpGet, HttpPost, HttpPut, HttpDelete.
+        public IQueryable<MascotaPOCO> GetMascotasNombre(string nombre)
+        {
+            var mascotas = this.GetMascotas().Where(x => x.nombre == nombre);
+            return mascotas;
         }
 
         // GET: api/Mascotas/5
-        [ResponseType(typeof(Mascota))]
+        [ResponseType(typeof(MascotaPOCO))]
         public async Task<IHttpActionResult> GetMascota(int id)
         {
-            Mascota mascota = await db.Mascotas.FindAsync(id);
+            var mascota = await db.Mascota.FindAsync(id);
             if (mascota == null)
             {
                 return NotFound();
             }
 
-            return Ok(mascota);
+            return Ok(new MascotaPOCO(mascota));
         }
 
-        // PUT: api/Mascotas/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutMascota(int id, Mascota mascota)
+        // POST: api/Mascotas
+        [ResponseType(typeof(MascotaPOCO))]
+        public async Task<IHttpActionResult> PostMascota(MascotaPOCO mascotaParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != mascota.Id)
+            var mascota = db.Mascota.Add(mascotaParametro.toDb());
+            await db.SaveChangesAsync();
+
+            return CreatedAtRoute("DefaultApi", new { id = mascota.Id }, new MascotaPOCO(mascota));
+        }
+
+        // PUT: api/Mascotas/5
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> PutMascota(int id, MascotaPOCO mascotaParametro)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != mascotaParametro.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(mascota).State = EntityState.Modified;
+            db.Entry(mascotaParametro.toDb()).State = EntityState.Modified;
 
             try
             {
@@ -74,43 +112,24 @@ namespace Mascotas.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Mascotas
-        [ResponseType(typeof(Mascota))]
-        public async Task<IHttpActionResult> PostMascota(Mascota mascota)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Mascotas.Add(mascota);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = mascota.Id }, mascota);
-        }
-
         // DELETE: api/Mascotas/5
-        [ResponseType(typeof(Mascota))]
+        [ResponseType(typeof(MascotaPOCO))]
         public async Task<IHttpActionResult> DeleteMascota(int id)
         {
-            Mascota mascota = await db.Mascotas.FindAsync(id);
-            if (mascota == null)
+            using (var db = new MascotasEntities())
             {
-                return NotFound();
+                Mascota mascota = await db.Mascota.FindAsync(id);
+
+                if (mascota == null)
+                {
+                    return NotFound();
+                }
+
+                db.Mascota.Remove(mascota);
+                await db.SaveChangesAsync();
+
+                return Ok(new MascotaPOCO(mascota));
             }
-
-            db.Mascotas.Remove(mascota);
-            await db.SaveChangesAsync();
-
-            return Ok(mascota);
-        }
-        
-        [Route("GetMascotasNombre")]
-        [HttpGet] // There are HttpGet, HttpPost, HttpPut, HttpDelete.
-        public IQueryable<Mascota> GetMascotasNombre(string nombre)
-        {
-            IQueryable<Mascota> mascotas = db.Mascotas.Where(x => x.nombre == nombre);
-            return mascotas;
         }
 
         protected override void Dispose(bool disposing)
@@ -124,7 +143,7 @@ namespace Mascotas.Controllers
 
         private bool MascotaExists(int id)
         {
-            return db.Mascotas.Count(e => e.Id == id) > 0;
+            return db.Mascota.Count(e => e.Id == id) > 0;
         }
     }
 }

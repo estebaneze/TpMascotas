@@ -18,42 +18,49 @@ namespace Mascotas.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TipoContratoesController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private MascotasEntities db = new MascotasEntities();
 
         // GET: api/TipoContratoes
-        public IQueryable<TipoContrato> GetTipoContratoes()
+        public IQueryable<TipoContratoPOCO> GetTipoContratoes()
         {
-            return db.TipoContratoes;
+            var tipoContrato = from con in db.TipoContrato
+                         select new TipoContratoPOCO
+                         {
+                             Id = con.Id,
+                             terminos = con.terminos
+                         };
+
+            return tipoContrato;
         }
 
         // GET: api/TipoContratoes/5
-        [ResponseType(typeof(TipoContrato))]
+        [ResponseType(typeof(TipoContratoPOCO))]
         public async Task<IHttpActionResult> GetTipoContrato(int id)
         {
-            TipoContrato tipoContrato = await db.TipoContratoes.FindAsync(id);
+            TipoContrato tipoContrato = await db.TipoContrato.FindAsync(id);
             if (tipoContrato == null)
             {
                 return NotFound();
             }
 
-            return Ok(tipoContrato);
+            return Ok(new TipoContratoPOCO(tipoContrato));
         }
 
         // PUT: api/TipoContratoes/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutTipoContrato(int id, TipoContrato tipoContrato)
+        public async Task<IHttpActionResult> PutTipoContrato(int id, TipoContratoPOCO tipoContratoParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != tipoContrato.Id)
+            if (id != tipoContratoParametro.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(tipoContrato).State = EntityState.Modified;
+            db.Entry(tipoContratoParametro.toDb()).State = EntityState.Modified;
 
             try
             {
@@ -75,34 +82,34 @@ namespace Mascotas.Controllers
         }
 
         // POST: api/TipoContratoes
-        [ResponseType(typeof(TipoContrato))]
-        public async Task<IHttpActionResult> PostTipoContrato(TipoContrato tipoContrato)
+        [ResponseType(typeof(TipoContratoPOCO))]
+        public async Task<IHttpActionResult> PostTipoContrato(TipoContratoPOCO tipoContratoParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.TipoContratoes.Add(tipoContrato);
+            var tipoContrato = db.TipoContrato.Add(tipoContratoParametro.toDb());
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = tipoContrato.Id }, tipoContrato);
+            return CreatedAtRoute("DefaultApi", new { id = tipoContrato.Id }, new TipoContratoPOCO(tipoContrato));
         }
 
         // DELETE: api/TipoContratoes/5
-        [ResponseType(typeof(TipoContrato))]
+        [ResponseType(typeof(TipoContratoPOCO))]
         public async Task<IHttpActionResult> DeleteTipoContrato(int id)
         {
-            TipoContrato tipoContrato = await db.TipoContratoes.FindAsync(id);
+            TipoContrato tipoContrato = await db.TipoContrato.FindAsync(id);
             if (tipoContrato == null)
             {
                 return NotFound();
             }
 
-            db.TipoContratoes.Remove(tipoContrato);
+            db.TipoContrato.Remove(tipoContrato);
             await db.SaveChangesAsync();
 
-            return Ok(tipoContrato);
+            return Ok(new TipoContratoPOCO(tipoContrato));
         }
 
         protected override void Dispose(bool disposing)
@@ -116,7 +123,7 @@ namespace Mascotas.Controllers
 
         private bool TipoContratoExists(int id)
         {
-            return db.TipoContratoes.Count(e => e.Id == id) > 0;
+            return db.TipoContrato.Count(e => e.Id == id) > 0;
         }
     }
 }

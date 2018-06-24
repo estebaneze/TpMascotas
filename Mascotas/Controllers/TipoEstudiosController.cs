@@ -18,42 +18,50 @@ namespace Mascotas.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TipoEstudiosController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private MascotasEntities db = new MascotasEntities();
 
         // GET: api/TipoEstudios
-        public IQueryable<TipoEstudio> GetTipoEstudios()
+        public IQueryable<TipoEstudioPOCO> GetTipoEstudios()
         {
-            return db.TipoEstudios;
+            var tipoEstudio = from est in db.TipoEstudio
+                               select new TipoEstudioPOCO
+                               {
+                                   Id = est.Id,
+                                   descripcion = est.descripcion,
+                                   periodo_validez = est.periodo_validez 
+                               };
+
+            return tipoEstudio;
         }
 
         // GET: api/TipoEstudios/5
-        [ResponseType(typeof(TipoEstudio))]
+        [ResponseType(typeof(TipoEstudioPOCO))]
         public async Task<IHttpActionResult> GetTipoEstudio(int id)
         {
-            TipoEstudio tipoEstudio = await db.TipoEstudios.FindAsync(id);
+            TipoEstudio tipoEstudio = await db.TipoEstudio.FindAsync(id);
             if (tipoEstudio == null)
             {
                 return NotFound();
             }
 
-            return Ok(tipoEstudio);
+            return Ok(new TipoEstudioPOCO(tipoEstudio));
         }
 
         // PUT: api/TipoEstudios/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutTipoEstudio(int id, TipoEstudio tipoEstudio)
+        public async Task<IHttpActionResult> PutTipoEstudio(int id, TipoEstudioPOCO tipoEstudioParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != tipoEstudio.Id)
+            if (id != tipoEstudioParametro.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(tipoEstudio).State = EntityState.Modified;
+            db.Entry(tipoEstudioParametro.toDb()).State = EntityState.Modified;
 
             try
             {
@@ -75,34 +83,34 @@ namespace Mascotas.Controllers
         }
 
         // POST: api/TipoEstudios
-        [ResponseType(typeof(TipoEstudio))]
-        public async Task<IHttpActionResult> PostTipoEstudio(TipoEstudio tipoEstudio)
+        [ResponseType(typeof(TipoEstudioPOCO))]
+        public async Task<IHttpActionResult> PostTipoEstudio(TipoEstudioPOCO tipoEstudioParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.TipoEstudios.Add(tipoEstudio);
+            var tipoEstudio = db.TipoEstudio.Add(tipoEstudioParametro.toDb());
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = tipoEstudio.Id }, tipoEstudio);
+            return CreatedAtRoute("DefaultApi", new { id = tipoEstudio.Id }, new TipoEstudioPOCO(tipoEstudio));
         }
 
         // DELETE: api/TipoEstudios/5
         [ResponseType(typeof(TipoEstudio))]
         public async Task<IHttpActionResult> DeleteTipoEstudio(int id)
         {
-            TipoEstudio tipoEstudio = await db.TipoEstudios.FindAsync(id);
+            TipoEstudio tipoEstudio = await db.TipoEstudio.FindAsync(id);
             if (tipoEstudio == null)
             {
                 return NotFound();
             }
 
-            db.TipoEstudios.Remove(tipoEstudio);
+            db.TipoEstudio.Remove(tipoEstudio);
             await db.SaveChangesAsync();
 
-            return Ok(tipoEstudio);
+            return Ok(new TipoEstudioPOCO(tipoEstudio));
         }
 
         protected override void Dispose(bool disposing)
@@ -116,7 +124,7 @@ namespace Mascotas.Controllers
 
         private bool TipoEstudioExists(int id)
         {
-            return db.TipoEstudios.Count(e => e.Id == id) > 0;
+            return db.TipoEstudio.Count(e => e.Id == id) > 0;
         }
     }
 }

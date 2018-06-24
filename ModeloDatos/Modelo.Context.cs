@@ -18,6 +18,8 @@ namespace ModeloDatos
         public MascotasEntities()
             : base("name=MascotasEntities")
         {
+            this.Configuration.LazyLoadingEnabled = true;
+            this.Configuration.ProxyCreationEnabled = true;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

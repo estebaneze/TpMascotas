@@ -18,42 +18,49 @@ namespace Mascotas.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class RazasController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private MascotasEntities db = new MascotasEntities();
 
         // GET: api/Razas
-        public IQueryable<Raza> GetRazas()
+        public IQueryable<RazaPOCO> GetRazas()
         {
-            return db.Razas;
+            var razas = from raz in db.Raza
+                            select new RazaPOCO
+                            {
+                                Id = raz.Id,
+                                descripcion = raz.descripcion
+                            };
+
+            return razas;
         }
 
         // GET: api/Razas/5
-        [ResponseType(typeof(Raza))]
+        [ResponseType(typeof(RazaPOCO))]
         public async Task<IHttpActionResult> GetRaza(int id)
         {
-            Raza raza = await db.Razas.FindAsync(id);
+            Raza raza = await db.Raza.FindAsync(id);
             if (raza == null)
             {
                 return NotFound();
             }
 
-            return Ok(raza);
+            return Ok(new RazaPOCO(raza));
         }
 
         // PUT: api/Razas/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutRaza(int id, Raza raza)
+        public async Task<IHttpActionResult> PutRaza(int id, RazaPOCO razaParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != raza.Id)
+            if (id != razaParametro.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(raza).State = EntityState.Modified;
+            db.Entry(razaParametro.toDb()).State = EntityState.Modified;
 
             try
             {
@@ -75,34 +82,34 @@ namespace Mascotas.Controllers
         }
 
         // POST: api/Razas
-        [ResponseType(typeof(Raza))]
-        public async Task<IHttpActionResult> PostRaza(Raza raza)
+        [ResponseType(typeof(RazaPOCO))]
+        public async Task<IHttpActionResult> PostRaza(RazaPOCO razaParametro)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Razas.Add(raza);
+            var raza = db.Raza.Add(razaParametro.toDb());
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = raza.Id }, raza);
+            return CreatedAtRoute("DefaultApi", new { id = raza.Id }, new RazaPOCO(raza));
         }
 
         // DELETE: api/Razas/5
-        [ResponseType(typeof(Raza))]
+        [ResponseType(typeof(RazaPOCO))]
         public async Task<IHttpActionResult> DeleteRaza(int id)
         {
-            Raza raza = await db.Razas.FindAsync(id);
+            Raza raza = await db.Raza.FindAsync(id);
             if (raza == null)
             {
                 return NotFound();
             }
 
-            db.Razas.Remove(raza);
+            db.Raza.Remove(raza);
             await db.SaveChangesAsync();
 
-            return Ok(raza);
+            return Ok(new RazaPOCO(raza));
         }
 
         protected override void Dispose(bool disposing)
@@ -116,7 +123,7 @@ namespace Mascotas.Controllers
 
         private bool RazaExists(int id)
         {
-            return db.Razas.Count(e => e.Id == id) > 0;
+            return db.Raza.Count(e => e.Id == id) > 0;
         }
     }
 }
