@@ -24,13 +24,17 @@ namespace Mascotas.Controllers
         public IQueryable<MascotaPOCO> GetMascotas()
         {
             var mascotas = from mas in db.Mascota
+                           join raz in db.Raza on mas.razaId equals raz.Id
+                           join tam in db.Tamaño on mas.tamañoId equals tam.Id
                            select new MascotaPOCO
                            {
                                Id = mas.Id,
                                nombre = mas.nombre,
-                               tamañoId = mas.tamañoId,
+                               tamanioId = mas.tamañoId,
+                               tamanioDescripcion = tam.descripcion,
                                sexo = mas.sexo,
                                razaId = mas.razaId,
+                               razaDescripcion = raz.descripcion,
                                observaciones = mas.observaciones,
                                color = mas.color,
                                caracter = mas.caracter,
@@ -51,15 +55,15 @@ namespace Mascotas.Controllers
 
         // GET: api/Mascotas/5
         [ResponseType(typeof(MascotaPOCO))]
-        public async Task<IHttpActionResult> GetMascota(int id)
+        public IHttpActionResult GetMascota(int id)
         {
-            var mascota = await db.Mascota.FindAsync(id);
+            var mascota = this.GetMascotas().Where(x => x.Id == id).FirstOrDefault();
             if (mascota == null)
             {
                 return NotFound();
             }
 
-            return Ok(new MascotaPOCO(mascota));
+            return Ok(mascota);
         }
 
         // POST: api/Mascotas

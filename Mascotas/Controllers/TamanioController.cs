@@ -16,15 +16,15 @@ using System.Web.Http.Cors;
 namespace Mascotas.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class TamañoController : ApiController
+    public class TamanioController : ApiController
     {
         private MascotasEntities db = new MascotasEntities();
 
-        // GET: api/Tamaño
-        public IQueryable<TamañoPOCO> GetTamaño()
+        // GET: api/Tamanio
+        public IQueryable<TamanioPOCO> GetTamanio()
         {
             var tamaño = from tam in db.Tamaño
-                        select new TamañoPOCO
+                        select new TamanioPOCO
                         {
                             Id = tam.Id,
                             descripcion = tam.descripcion
@@ -33,9 +33,9 @@ namespace Mascotas.Controllers
             return tamaño;
         }
 
-        // GET: api/Tamaño/5
-        [ResponseType(typeof(TamañoPOCO))]
-        public async Task<IHttpActionResult> GetTamaño(int id)
+        // GET: api/Tamanio/5
+        [ResponseType(typeof(TamanioPOCO))]
+        public async Task<IHttpActionResult> GetTamanio(int id)
         {
             Tamaño tamaño = await db.Tamaño.FindAsync(id);
             if (tamaño == null)
@@ -43,12 +43,12 @@ namespace Mascotas.Controllers
                 return NotFound();
             }
 
-            return Ok(new TamañoPOCO(tamaño));
+            return Ok(new TamanioPOCO(tamaño));
         }
 
-        // PUT: api/Tamaño/5
+        // PUT: api/Tamanio/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutTamaño(int id, TamañoPOCO tamañoParametro)
+        public async Task<IHttpActionResult> PutTamanio(int id, TamanioPOCO tamañoParametro)
         {
             if (!ModelState.IsValid)
             {
@@ -81,9 +81,9 @@ namespace Mascotas.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Tamaño
-        [ResponseType(typeof(TamañoPOCO))]
-        public async Task<IHttpActionResult> PostTamaño(TamañoPOCO tamañoParametro)
+        // POST: api/Tamanio
+        [ResponseType(typeof(TamanioPOCO))]
+        public async Task<IHttpActionResult> PostTamanio(TamanioPOCO tamañoParametro)
         {
             if (!ModelState.IsValid)
             {
@@ -93,12 +93,12 @@ namespace Mascotas.Controllers
             var tamaño = db.Tamaño.Add(tamañoParametro.toDb());
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = tamaño.Id }, new TamañoPOCO(tamaño));
+            return CreatedAtRoute("DefaultApi", new { id = tamaño.Id }, new TamanioPOCO(tamaño));
         }
 
-        // DELETE: api/Tamaño/5
-        [ResponseType(typeof(TamañoPOCO))]
-        public async Task<IHttpActionResult> DeleteTamaño(int id)
+        // DELETE: api/Tamanio/5
+        [ResponseType(typeof(TamanioPOCO))]
+        public async Task<IHttpActionResult> DeleteTamanio(int id)
         {
             Tamaño tamaño = await db.Tamaño.FindAsync(id);
             if (tamaño == null)
@@ -109,7 +109,7 @@ namespace Mascotas.Controllers
             db.Tamaño.Remove(tamaño);
             await db.SaveChangesAsync();
 
-            return Ok(new TamañoPOCO(tamaño));
+            return Ok(new TamanioPOCO(tamaño));
         }
 
         protected override void Dispose(bool disposing)

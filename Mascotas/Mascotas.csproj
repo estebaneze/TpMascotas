@@ -221,7 +221,7 @@
     <Compile Include="Controllers\MascotasController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\RazasController.cs" />
-    <Compile Include="Controllers\TamañoController.cs" />
+    <Compile Include="Controllers\TamanioController.cs" />
     <Compile Include="Controllers\TipoContratoesController.cs" />
     <Compile Include="Controllers\TipoEstudiosController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
@@ -245,7 +245,7 @@
     <Compile Include="Models\PersonaPOCO.cs" />
     <Compile Include="Models\ProvinciaPOCO.cs" />
     <Compile Include="Models\RazaPOCO.cs" />
-    <Compile Include="Models\TamañoPOCO.cs" />
+    <Compile Include="Models\TamanioPOCO.cs" />
     <Compile Include="Models\TipoContratoPOCO.cs" />
     <Compile Include="Models\TipoEstudioPOCO.cs" />
     <Compile Include="Models\UsuarioPOCO.cs" />

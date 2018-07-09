@@ -93,7 +93,26 @@ namespace Mascotas.Controllers
                 return BadRequest(ModelState);
             }
 
-            var visita = db.Visita.Add(visitaParametro.toDb());
+            var visita = visitaParametro.toDb();
+            db.Visita.Add(visita);
+
+            foreach (var est in visitaParametro.estudio)
+            {
+                TipoEstudio tipoEstudio = db.TipoEstudio.Find(est.tipoEstudioId);
+                Estudio estudio = new Estudio();
+
+                var mesesValidoTipoEstudio = tipoEstudio.periodo_validez.HasValue ? tipoEstudio.periodo_validez.Value : 0;
+
+                estudio.mascotaId = visitaParametro.mascotaId;
+                estudio.observaciones = est.observaciones;
+                estudio.tipoEstudioId = est.tipoEstudioId;
+                estudio.veterinarioId = visitaParametro.veterinarioId;
+                estudio.fecha_realizacion = DateTime.Now;
+                estudio.fecha_vencimiento = visita.fecha.AddMonths(mesesValidoTipoEstudio);
+                
+                db.Estudio.Add(estudio);
+            }
+
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = visita.Id }, new VisitaPOCO(visita));

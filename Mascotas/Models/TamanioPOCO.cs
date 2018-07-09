@@ -6,11 +6,11 @@ using System.Web;
 
 namespace Mascotas.Models
 {
-    public class TamañoPOCO
+    public class TamanioPOCO
     {
-        public TamañoPOCO() { }
+        public TamanioPOCO() { }
 
-        public TamañoPOCO(Tamaño tam)
+        public TamanioPOCO(Tamaño tam)
         {
             this.Id = tam.Id;
             this.descripcion = tam.descripcion;

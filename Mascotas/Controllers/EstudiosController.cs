@@ -24,13 +24,18 @@ namespace Mascotas.Controllers
         public IQueryable<EstudioPOCO> GetEstudios()
         {
             var estudio = from est in db.Estudio
+                          join vet in db.Veterinario on est.veterinarioId equals vet.veterinarioId
+                          join per in db.Persona on vet.veterinarioId equals per.Id
+                          join test in db.TipoEstudio on est.tipoEstudioId equals test.Id
                           select new EstudioPOCO
                           {
                                 Id = est.Id,
                                 mascotaId = est.mascotaId,
                                 tipoEstudioId = est.tipoEstudioId,
+                                tipoEstudioDescripcion = test.descripcion,
                                 fecha_realizacion = est.fecha_realizacion,
                                 veterinarioId = est.veterinarioId,
+                                veterinarioNombreApellido = per.apellido + " " + per.nombre + " (mat." + vet.matricula + ")",
                                 fecha_vencimiento = est.fecha_vencimiento,
                                 observaciones = est.observaciones
                            };
@@ -47,15 +52,15 @@ namespace Mascotas.Controllers
 
         // GET: api/Estudios/5
         [ResponseType(typeof(EstudioPOCO))]
-        public async Task<IHttpActionResult> GetEstudio(int id)
+        public IHttpActionResult GetEstudio(int id)
         {
-            Estudio estudio = await db.Estudio.FindAsync(id);
+            var estudio = this.GetEstudios().Where(x => x.Id == id).FirstOrDefault();
             if (estudio == null)
             {
                 return NotFound();
             }
 
-            return Ok(new EstudioPOCO(estudio));
+            return Ok(estudio);
         }
 
         // PUT: api/Estudios/5

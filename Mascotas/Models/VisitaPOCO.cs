@@ -36,5 +36,7 @@ namespace Mascotas.Models
         public int mascotaId { get; set; }
         public System.DateTime fecha { get; set; }
         public Nullable<decimal> monto { get; set; }
+
+        public EstudioPOCO[] estudio;
     }
 }

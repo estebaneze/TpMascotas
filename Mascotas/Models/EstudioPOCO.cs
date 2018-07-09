@@ -38,8 +38,10 @@ namespace Mascotas.Models
         public int Id { get; set; }
         public int mascotaId { get; set; }
         public int tipoEstudioId { get; set; }
+        public string tipoEstudioDescripcion { get; set; }
         public System.DateTime fecha_realizacion { get; set; }
         public Nullable<int> veterinarioId { get; set; }
+        public string veterinarioNombreApellido { get; set; }
         public Nullable<System.DateTime> fecha_vencimiento { get; set; }
         public string observaciones { get; set; }
     }

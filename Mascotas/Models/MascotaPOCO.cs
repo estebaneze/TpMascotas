@@ -14,7 +14,7 @@ namespace Mascotas.Models
         {
             this.Id = mas.Id;
             this.nombre = mas.nombre;
-            this.tamañoId = mas.tamañoId;
+            this.tamanioId = mas.tamañoId;
             this.sexo = mas.sexo;
             this.razaId = mas.razaId;
             this.observaciones = mas.observaciones;
@@ -30,7 +30,7 @@ namespace Mascotas.Models
             {
                 Id = this.Id,
                 nombre = this.nombre,
-                tamañoId = this.tamañoId,
+                tamañoId = this.tamanioId,
                 sexo = this.sexo,
                 razaId = this.razaId,
                 observaciones = this.observaciones,
@@ -42,11 +42,13 @@ namespace Mascotas.Models
         }
 
         public int Id { get; set; }
+
         public Nullable<int> razaId { get; set; }
+        public string razaDescripcion { get; set; }
+
         public string nombre { get; set; }
         public string sexo { get; set; }
         public Nullable<System.DateTime> fecha_nacimiento { get; set; }
-
         public string edad
         {
             get
@@ -63,9 +65,11 @@ namespace Mascotas.Models
                 }
             }
         }
-
         public string color { get; set; }
-        public Nullable<int> tamañoId { get; set; }
+
+        public Nullable<int> tamanioId { get; set; }
+        public string tamanioDescripcion { get; set; }
+
         public string caracter { get; set; }
         public string observaciones { get; set; }
         public string avatar { get; set; }
