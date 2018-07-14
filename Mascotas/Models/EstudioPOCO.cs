@@ -43,6 +43,12 @@ namespace Mascotas.Models
         public Nullable<int> veterinarioId { get; set; }
         public string veterinarioNombreApellido { get; set; }
         public Nullable<System.DateTime> fecha_vencimiento { get; set; }
+
+        public string fecha_vencimientoString
+        {
+            get { return fecha_vencimiento.HasValue ? fecha_vencimiento.Value.ToShortDateString() : string.Empty; }
+        }
+
         public string observaciones { get; set; }
     }
 }
