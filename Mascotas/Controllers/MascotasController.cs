@@ -26,6 +26,51 @@ namespace Mascotas.Controllers
             var mascotas = from mas in db.Mascota
                            join raz in db.Raza on mas.razaId equals raz.Id
                            join tam in db.Tamaño on mas.tamañoId equals tam.Id
+
+                           join adop in db.Adopcion on mas.Id equals adop.mascotaId into adopJoin
+                           from adopSelect in adopJoin.DefaultIfEmpty()
+                           join tipoCon in db.TipoContrato on adopSelect.tipoContratoId equals tipoCon.Id into tipoConJoin
+                           from tipoConSelec in tipoConJoin.DefaultIfEmpty()
+
+                           select new MascotaPOCO
+                           {
+                               Id = mas.Id,
+                               nombre = mas.nombre,
+                               tamanioId = mas.tamañoId,
+                               tamanioDescripcion = tam.descripcion,
+                               sexo = mas.sexo,
+                               razaId = mas.razaId,
+                               razaDescripcion = raz.descripcion,
+                               observaciones = mas.observaciones,
+                               color = mas.color,
+                               caracter = mas.caracter,
+                               avatar = mas.avatar,
+                               fecha_nacimiento = mas.fecha_nacimiento,
+                               tipoContratoDescripcion = tipoConSelec.terminos
+                           };
+
+            return mascotas;
+        }
+
+        [Route("GetMascotasNombre")]
+        [HttpGet] // There are HttpGet, HttpPost, HttpPut, HttpDelete.
+        public IQueryable<MascotaPOCO> GetMascotasNombre(string nombre)
+        {
+            var mascotas = this.GetMascotas().Where(x => x.nombre == nombre);
+            return mascotas;
+        }
+
+        [Route("GetMascotasAdopcion")]
+        [HttpGet] // There are HttpGet, HttpPost, HttpPut, HttpDelete.
+        public IQueryable<MascotaPOCO> GetMascotasAdopcion()
+        {
+            var mascotas = from mas in db.Mascota
+                           join raz in db.Raza on mas.razaId equals raz.Id
+                           join tam in db.Tamaño on mas.tamañoId equals tam.Id
+                           join adop in db.Adopcion on mas.Id equals adop.mascotaId
+                           join estadop in db.AdopcionEstado on adop.Id equals estadop.adopcionId
+                           where estadop.estadoId != 1
+
                            select new MascotaPOCO
                            {
                                Id = mas.Id,
@@ -42,14 +87,6 @@ namespace Mascotas.Controllers
                                fecha_nacimiento = mas.fecha_nacimiento
                            };
 
-            return mascotas;
-        }
-
-        [Route("GetMascotasNombre")]
-        [HttpGet] // There are HttpGet, HttpPost, HttpPut, HttpDelete.
-        public IQueryable<MascotaPOCO> GetMascotasNombre(string nombre)
-        {
-            var mascotas = this.GetMascotas().Where(x => x.nombre == nombre);
             return mascotas;
         }
 

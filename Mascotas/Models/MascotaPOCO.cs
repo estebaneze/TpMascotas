@@ -73,5 +73,6 @@ namespace Mascotas.Models
         public string caracter { get; set; }
         public string observaciones { get; set; }
         public string avatar { get; set; }
+        public string tipoContratoDescripcion { get; set; }
     }
 }
