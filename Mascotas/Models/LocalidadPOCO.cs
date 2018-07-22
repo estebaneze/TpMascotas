@@ -30,5 +30,6 @@ namespace Mascotas.Models
         public int Id { get; set; }
         public string nombre { get; set; }
         public Nullable<int> provinciaId { get; set; }
+        public string provinciaNombre { get; set; }
     }
 }

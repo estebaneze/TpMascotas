@@ -33,6 +33,8 @@ namespace Mascotas.Models
 
         public int Id { get; set; }
         public int personaId { get; set; }
+        public string mascotaNombre { get; set; }
+        public string personaNombreyApellido { get; set; }
         public int mascotaId { get; set; }
         public System.DateTime fecha { get; set; }
         public Nullable<decimal> monto { get; set; }

@@ -30,5 +30,6 @@ namespace Mascotas.Models
         public int Id { get; set; }
         public int adopcionId { get; set; }
         public int estadoId { get; set; }
+        public string estadoDescripcion { get; set; }
     }
 }
